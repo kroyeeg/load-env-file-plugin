@@ -1,7 +1,15 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# intellij-env-file-plugin Changelog
+# load-env-file-plugin Changelog
 
 ## [Unreleased]
+
+## [Released [1.0.0]]
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+- Initial release
+  - Support for `.env` files in project root
+
+[Unreleased]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/kroyeeg/intellij-env-file-plugin/commits/v1.0.0
