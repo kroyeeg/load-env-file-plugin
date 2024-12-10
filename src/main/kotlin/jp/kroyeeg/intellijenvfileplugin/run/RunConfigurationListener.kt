@@ -3,6 +3,10 @@ package jp.kroyeeg.intellijenvfileplugin.run
 import jp.kroyeeg.intellijenvfileplugin.services.DotEnvFilePluginService
 import com.intellij.execution.RunManagerListener
 import com.intellij.execution.RunnerAndConfigurationSettings
+import com.intellij.execution.configurations.LocatableConfigurationBase
+import com.intellij.execution.configurations.ModuleBasedConfiguration
+import com.intellij.execution.configurations.RunConfigurationModule
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 
 class RunConfigurationListener : RunManagerListener {
@@ -26,6 +30,21 @@ class RunConfigurationListener : RunManagerListener {
                 val mySettings = config.settings
                 val newEnv = mySettings.env + expandedEnv
                 mySettings.env = newEnv
+            } else if (config is ModuleBasedConfiguration<*, *>) {
+                runCatching {
+                    val methods = config.state!!.javaClass.methods
+                    val getEnvMethod = methods.find { it.name == "getEnv" }
+                    val setEnvMethod = methods.find { it.name == "setEnv" }
+                    val newEnv = getEnvMethod?.let { method ->
+                        method.isAccessible = true
+                        val envs = method.invoke(config.state) as Map<String, String>
+                        envs + expandedEnv
+                    }
+                    setEnvMethod?.let { method ->
+                        method.isAccessible = true
+                        method.invoke(config.state, newEnv)
+                    }
+                }.onFailure { thisLogger().error(it) }
             }
         }
     }
