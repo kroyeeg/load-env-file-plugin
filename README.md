@@ -7,7 +7,7 @@
 # Usage
 <!-- Plugin description -->
 This plugin provides support for `.env` file in the project root.
-`.env` file loads once when the project is opened.
+`.env` file loads when the project is opened, and the run configuration is saved.
 
 When you add a Run Configuration, the contents of the .env file are automatically set as the Run Configuration's environment variables.
 
