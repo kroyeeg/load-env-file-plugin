@@ -3,9 +3,7 @@ package jp.kroyeeg.intellijenvfileplugin.run
 import jp.kroyeeg.intellijenvfileplugin.services.DotEnvFilePluginService
 import com.intellij.execution.RunManagerListener
 import com.intellij.execution.RunnerAndConfigurationSettings
-import com.intellij.execution.configurations.LocatableConfigurationBase
 import com.intellij.execution.configurations.ModuleBasedConfiguration
-import com.intellij.execution.configurations.RunConfigurationModule
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 
@@ -23,6 +21,7 @@ class RunConfigurationListener : RunManagerListener {
 
     private fun updateEnvironmentVariables(settings: RunnerAndConfigurationSettings) {
         val env = DotEnvFilePluginService.getInstance(settings.configuration.project)
+            .update()
             .state.variables.associate { it.key to it.value }
         val expandedEnv = expandEnvironmentVariables(env)
         settings.configuration.let { config ->

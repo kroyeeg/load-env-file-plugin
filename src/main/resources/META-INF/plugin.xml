@@ -11,8 +11,4 @@
                   topic="com.intellij.execution.RunManagerListener"/>
     </projectListeners>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <postStartupActivity implementation="jp.kroyeeg.intellijenvfileplugin.activity.ProjectOpenedActivity"/>
-    </extensions>
-
 </idea-plugin>
