@@ -4,13 +4,13 @@
 
 ## [Unreleased]
 
-## [Released [1.0.5]]
-
-- Update: Confirm to use in 2025.2
-
 ## [Released [1.0.4]]
 
 - Update: Confirm to use in 2025.x
+
+## [Released [1.0.5]]
+
+- Update: Confirm to use in 2025.2
 
 ## [Released [1.0.3]]
 
@@ -33,10 +33,10 @@
 - Initial release
   - Support for `.env` files in project root
 
-[Unreleased]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.5...HEAD
-[1.0.5]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.4...v1.0.5
-[1.0.4]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.3...v1.0.4
-[1.0.3]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/kroyeeg/intellij-env-file-plugin/commits/v1.0.0
+[Unreleased]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.5...HEAD
+[1.0.5]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.4...1.0.5
+[1.0.4]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.3...1.0.4
+[1.0.3]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.1...1.0.2
+[1.0.1]: https://github.com/kroyeeg/intellij-env-file-plugin/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/kroyeeg/intellij-env-file-plugin/commits/1.0.0
