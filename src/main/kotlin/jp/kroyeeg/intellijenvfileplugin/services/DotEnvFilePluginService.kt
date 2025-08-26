@@ -10,7 +10,10 @@ import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.DotenvEntry
 import java.io.File
 
-data class DotEnvFilePluginSettings(val variables: MutableSet<DotenvEntry> = mutableSetOf())
+data class DotEnvFilePluginSettings(
+    var envPath: String? = null,
+    val variables: MutableSet<DotenvEntry> = mutableSetOf()
+)
 
 @State(
     name = "MyPluginSettings",
@@ -30,9 +33,24 @@ class DotEnvFilePluginService(private val project: Project) : PersistentStateCom
     }
 
     fun update(): DotEnvFilePluginService {
-        if (File(project.basePath + "/.env").isFile) {
-            val dotenv = Dotenv.configure().directory(project.basePath)
-                .filename(".env")
+        // Clear previous variables to avoid accumulation across updates
+        settings.variables.clear()
+
+        val basePath = project.basePath
+        val configuredPath = settings.envPath?.trim()?.takeIf { it.isNotEmpty() }
+        val candidateFile: File? = when {
+            configuredPath != null -> {
+                val f = File(configuredPath)
+                if (f.isDirectory) File(f, ".env") else f
+            }
+            basePath != null -> File(basePath, ".env")
+            else -> null
+        }
+
+        if (candidateFile != null && candidateFile.isFile) {
+            val dotenv = Dotenv.configure()
+                .directory(candidateFile.parent)
+                .filename(candidateFile.name)
                 .load()
             settings.variables.addAll(dotenv.entries(Dotenv.Filter.DECLARED_IN_ENV_FILE))
         }
