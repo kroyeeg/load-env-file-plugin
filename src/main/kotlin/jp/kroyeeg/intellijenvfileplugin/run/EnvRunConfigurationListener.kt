@@ -36,7 +36,7 @@ class EnvRunConfigurationListener : RunManagerListener {
                     val setEnvMethod = methods.find { it.name == "setEnv" }
                     val newEnv = getEnvMethod?.let { method ->
                         method.isAccessible = true
-                        val envs = method.invoke(config.state) as Map<String, String>
+                        val envs = method.invoke(config.state) as Map<*, *>
                         envs + expandedEnv
                     }
                     setEnvMethod?.let { method ->

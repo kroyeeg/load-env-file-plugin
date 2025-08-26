@@ -4,10 +4,6 @@
 
 ## [Unreleased]
 
-## [Released [1.0.4]]
-
-- Update: Confirm to use in 2025.x
-
 ## [Released [1.0.5]]
 
 - Update: Confirm to use in 2025.2
