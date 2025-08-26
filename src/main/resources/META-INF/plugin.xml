@@ -6,8 +6,15 @@
 
     <depends>com.intellij.modules.platform</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable id="jp.kroyeeg.intellijenvfileplugin.settings"
+                             displayName="load-env-file"
+                             parentId="build"
+                             instance="jp.kroyeeg.intellijenvfileplugin.settings.EnvFileSettingsConfigurable"/>
+    </extensions>
+
     <projectListeners>
-        <listener class="jp.kroyeeg.intellijenvfileplugin.run.RunConfigurationListener"
+        <listener class="jp.kroyeeg.intellijenvfileplugin.run.EnvRunConfigurationListener"
                   topic="com.intellij.execution.RunManagerListener"/>
     </projectListeners>
 
