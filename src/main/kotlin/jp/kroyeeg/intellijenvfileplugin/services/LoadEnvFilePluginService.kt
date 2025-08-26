@@ -20,7 +20,7 @@ data class DotEnvFilePluginSettings(
     storages = [Storage("MyPluginSettings.xml")]
 )
 @Service(Service.Level.PROJECT)
-class DotEnvFilePluginService(private val project: Project) : PersistentStateComponent<DotEnvFilePluginSettings> {
+class EnvFileService(private val project: Project) : PersistentStateComponent<DotEnvFilePluginSettings> {
 
     private var settings: DotEnvFilePluginSettings = DotEnvFilePluginSettings()
 
@@ -32,7 +32,7 @@ class DotEnvFilePluginService(private val project: Project) : PersistentStateCom
         XmlSerializerUtil.copyBean(state, this.settings)
     }
 
-    fun update(): DotEnvFilePluginService {
+    fun update(): EnvFileService {
         // Clear previous variables to avoid accumulation across updates
         settings.variables.clear()
 
@@ -59,8 +59,8 @@ class DotEnvFilePluginService(private val project: Project) : PersistentStateCom
     }
 
     companion object {
-        fun getInstance(project: Project): DotEnvFilePluginService {
-            return project.getService(DotEnvFilePluginService::class.java)
+        fun getInstance(project: Project): EnvFileService {
+            return project.getService(EnvFileService::class.java)
         }
     }
 

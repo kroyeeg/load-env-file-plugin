@@ -5,13 +5,13 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBLabel
-import jp.kroyeeg.intellijenvfileplugin.services.DotEnvFilePluginService
+import jp.kroyeeg.intellijenvfileplugin.services.EnvFileService
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-class DotEnvSettingsConfigurable(private val project: Project) : Configurable {
+class EnvFileSettingsConfigurable(private val project: Project) : Configurable {
     private var panel: JPanel? = null
     private var pathField: TextFieldWithBrowseButton? = null
 
@@ -43,20 +43,20 @@ class DotEnvSettingsConfigurable(private val project: Project) : Configurable {
     }
 
     override fun isModified(): Boolean {
-        val current = DotEnvFilePluginService.getInstance(project).state.envPath ?: ""
+        val current = EnvFileService.getInstance(project).state.envPath ?: ""
         val ui = pathField?.text ?: ""
         return current != ui
     }
 
     override fun apply() {
-        val service = DotEnvFilePluginService.getInstance(project)
+        val service = EnvFileService.getInstance(project)
         service.state.envPath = pathField?.text?.trim()?.ifEmpty { null }
         // Reload variables so that new setting takes effect on next Run Config update
         service.update()
     }
 
     override fun reset() {
-        val current = DotEnvFilePluginService.getInstance(project).state.envPath
+        val current = EnvFileService.getInstance(project).state.envPath
         pathField?.text = current ?: ""
     }
 
