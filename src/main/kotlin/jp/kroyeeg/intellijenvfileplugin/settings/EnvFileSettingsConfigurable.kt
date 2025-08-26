@@ -44,20 +44,21 @@ class EnvFileSettingsConfigurable(private val project: Project) : Configurable {
 
     override fun isModified(): Boolean {
         val current = EnvFileService.getInstance(project).state.envPath ?: ""
-        val ui = pathField?.text ?: ""
+        val ui = pathField?.textField?.text ?: ""
         return current != ui
     }
 
     override fun apply() {
         val service = EnvFileService.getInstance(project)
-        service.state.envPath = pathField?.text?.trim()?.ifEmpty { null }
+        val text = pathField?.textField?.text?.trim()
+        service.state.envPath = if (text.isNullOrEmpty()) null else text
         // Reload variables so that new setting takes effect on next Run Config update
         service.update()
     }
 
     override fun reset() {
         val current = EnvFileService.getInstance(project).state.envPath
-        pathField?.text = current ?: ""
+        pathField?.textField?.text = current ?: ""
     }
 
     override fun disposeUIResources() {
