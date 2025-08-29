@@ -1,5 +1,6 @@
 .gradle
 .idea
+.idea/gradle.xml
 .intellijPlatform
 .qodana
 build
