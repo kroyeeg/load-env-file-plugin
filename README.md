@@ -4,16 +4,14 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/26061)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/26061)
 
-# Usage
+## Features
 <!-- Plugin description -->
-This plugin provides support for `.env` file in the project root.
-`.env` file loads when the project is opened, and the run configuration is saved.
+Adds support for loading environment variables from a `.env` file into JetBrains run configurations.
 
-When you add a Run Configuration, the contents of the .env file are automatically set as the Run Configuration's environment variables.
-
-Current supported features:
-- Gradle
-- Kotlin
+- Automatically injects variables when run configurations are added or modified.
+- Reads `.env` from the project root by default, or from a custom path set in **Settings | Tools | load-env-file**. If a directory is chosen, its `.env` is used; you can also specify a `.env` file directly.
+- Supports variable expansion so `${VAR}` references are resolved.
+- Currently supports Gradle and Kotlin run configurations.
 <!-- Plugin description end -->
 
 # Manual Installation
