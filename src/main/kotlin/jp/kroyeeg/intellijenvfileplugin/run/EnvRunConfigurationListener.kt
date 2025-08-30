@@ -3,11 +3,20 @@ package jp.kroyeeg.intellijenvfileplugin.run
 import jp.kroyeeg.intellijenvfileplugin.services.EnvFileService
 import com.intellij.execution.RunManagerListener
 import com.intellij.execution.RunnerAndConfigurationSettings
+import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.execution.configurations.ModuleBasedConfiguration
-import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 
+/**
+ * Listens for run configuration changes and delegates environment variable application
+ * to specialised [RunConfigurationEnvSetter] implementations.
+ */
 class EnvRunConfigurationListener : RunManagerListener {
+
+    private val setterMapping: Map<Class<out RunConfiguration>, Class<out RunConfigurationEnvSetter>> = mapOf(
+        ExternalSystemRunConfiguration::class.java to ExternalSystemRunConfigurationEnvSetter::class.java,
+        ModuleBasedConfiguration::class.java to ModuleBasedRunConfigurationEnvSetter::class.java,
+    )
 
     override fun runConfigurationAdded(settings: RunnerAndConfigurationSettings) {
         updateEnvironmentVariables(settings)
@@ -24,28 +33,14 @@ class EnvRunConfigurationListener : RunManagerListener {
             .update()
             .state.variables.associate { it.key to it.value }
         val expandedEnv = expandEnvironmentVariables(env)
-        settings.configuration.let { config ->
-            if (config is ExternalSystemRunConfiguration) {
-                val mySettings = config.settings
-                val newEnv = mySettings.env + expandedEnv
-                mySettings.env = newEnv
-            } else if (config is ModuleBasedConfiguration<*, *>) {
-                runCatching {
-                    val methods = config.state!!.javaClass.methods
-                    val getEnvMethod = methods.find { it.name == "getEnv" }
-                    val setEnvMethod = methods.find { it.name == "setEnv" }
-                    val newEnv = getEnvMethod?.let { method ->
-                        method.isAccessible = true
-                        val envs = method.invoke(config.state) as Map<*, *>
-                        envs + expandedEnv
-                    }
-                    setEnvMethod?.let { method ->
-                        method.isAccessible = true
-                        method.invoke(config.state, newEnv)
-                    }
-                }.onFailure { thisLogger().error(it) }
-            }
-        }
+        val configuration = settings.configuration
+        val setterClass = setterMapping.entries
+            .firstOrNull { (configClass, _) -> configClass.isInstance(configuration) }
+            ?.value
+        setterClass
+            ?.getDeclaredConstructor()
+            ?.newInstance()
+            ?.setEnvironment(configuration, expandedEnv)
     }
 
     private fun expandEnvironmentVariables(env: Map<String, String>): MutableMap<String, String> {
