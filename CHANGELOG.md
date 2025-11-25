@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Update: Confirm to use in 2025.3
+
 ## [1.0.6] - 2025-08-26
 
 - Update: Add configuration window to set env file path
