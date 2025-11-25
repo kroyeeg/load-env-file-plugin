@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.0.7] - 2025-11-25
+
 - Update: Confirm to use in 2025.3
 
 ## [1.0.6] - 2025-08-26
