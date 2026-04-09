@@ -201,7 +201,7 @@ jobs:
       # Cache Plugin Verifier IDEs
       - name: Restore Plugin Verifier IDEs Cache
         id: pv-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ${{ needs.build.outputs.pluginVerifierHomeDir }}/ides
           key: plugin-verifier-${{ hashFiles('build/listProductsReleases.txt') }}
@@ -210,7 +210,7 @@ jobs:
 
       - name: Save Plugin Verifier IDEs Cache (main only)
         if: github.ref == 'refs/heads/main' && steps.pv-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ${{ needs.build.outputs.pluginVerifierHomeDir }}/ides
           key: plugin-verifier-${{ hashFiles('build/listProductsReleases.txt') }}
