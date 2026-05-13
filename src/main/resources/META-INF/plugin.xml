@@ -5,6 +5,7 @@
     <vendor>sh-ogawa</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.sh</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <projectConfigurable id="jp.kroyeeg.intellijenvfileplugin.settings"
