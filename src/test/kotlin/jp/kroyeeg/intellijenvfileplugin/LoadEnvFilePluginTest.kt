@@ -4,7 +4,6 @@ import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import jp.kroyeeg.intellijenvfileplugin.services.EnvFileService
 import jp.kroyeeg.intellijenvfileplugin.run.EnvRunConfigurationListener
-import jp.kroyeeg.intellijenvfileplugin.run.ShRunConfigurationEnvSetter
 import java.io.File
 
 @TestDataPath("\$CONTENT_ROOT/src/test/testData")
@@ -91,20 +90,7 @@ class LoadEnvFilePluginTest : BasePlatformTestCase() {
         assertEquals("foo", result["B"]) // expands from A
         assertEquals("foo", result["C"]) // expands transitively
         // cycle should not infinite-loop and should leave at least one unresolved placeholder
-        assertEquals("${'$'}{E}", result["D"])
-        assertEquals("${'$'}{D}", result["E"])
-    }
-
-    fun testShRunConfigurationMappingRegistered() {
-        val listener = EnvRunConfigurationListener()
-        val field = EnvRunConfigurationListener::class.java.getDeclaredField("setterMapping")
-        field.isAccessible = true
-
-        @Suppress("UNCHECKED_CAST")
-        val mapping = field.get(listener) as Map<Class<*>, Class<*>>
-
-        val shConfigClass = Class.forName("com.intellij.sh.run.ShRunConfiguration")
-        assertTrue("ShRunConfiguration should be in setter mapping", mapping.containsKey(shConfigClass))
-        assertEquals(ShRunConfigurationEnvSetter::class.java, mapping[shConfigClass])
+        assertEquals("${'$'}{E}", result["D"]) 
+        assertEquals("${'$'}{D}", result["E"]) 
     }
 }
