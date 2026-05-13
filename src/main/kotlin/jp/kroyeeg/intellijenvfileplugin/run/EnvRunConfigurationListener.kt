@@ -6,7 +6,6 @@ import com.intellij.execution.RunnerAndConfigurationSettings
 import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.execution.configurations.ModuleBasedConfiguration
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
-import com.intellij.sh.run.ShRunConfiguration
 
 /**
  * Listens for run configuration changes and delegates environment variable application
@@ -17,7 +16,6 @@ class EnvRunConfigurationListener : RunManagerListener {
     private val setterMapping: Map<Class<out RunConfiguration>, Class<out RunConfigurationEnvSetter>> = mapOf(
         ExternalSystemRunConfiguration::class.java to ExternalSystemRunConfigurationEnvSetter::class.java,
         ModuleBasedConfiguration::class.java to ModuleBasedRunConfigurationEnvSetter::class.java,
-        ShRunConfiguration::class.java to ShRunConfigurationEnvSetter::class.java,
     )
 
     override fun runConfigurationAdded(settings: RunnerAndConfigurationSettings) {
